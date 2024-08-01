@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { json, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,7 +25,8 @@ const LoginPage = () => {
       console.log(res.data);
       const user = res.data;
       if (user.length != 0) {
-        const { uid, type } = user;
+        const { uid, type } = user[0];
+        console.log(uid + ": " + type);
         if (uid == "1" && type == "0") {
           navigate("/dashboard");
         } else if (uid == "1" && type == "1") {
