@@ -2,7 +2,9 @@ import { useState , useEffect} from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import RegistrationPage from './components/Registrationpage';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/StudentSide/Dashboard';
+import MentorDashboard from './components/MentorSide/MentorDashboard';
+import HodDashboard from './components/HodSide/HodDashboard';
 
 function App() {
   
@@ -20,13 +22,24 @@ function App() {
           element = {<RegistrationPage/>}
         />
          <Route
-          path="/registration"
-          element = {<RegistrationPage/>}
-        />
-         <Route
           path="/dashboard"
           element = {<Dashboard/>}
         />
+
+        {/* ---------Mentor-side-routing---------- */}
+
+        <Route 
+          path = "/MentorDashboard"
+          element = {<MentorDashboard/>}
+        />
+
+        <Route 
+          path = "/HodDashboard"
+          element = {<HodDashboard/>}
+        />   
+
+
+
       </Routes>
     </Router>
       
