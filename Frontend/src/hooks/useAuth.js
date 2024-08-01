@@ -2,16 +2,15 @@
 import { useEffect, useState } from 'react';
 import authService from '../services/authService';
 
-const useAuth = () => {
+const useAuth = async () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    useEffect(() => {
+    await useEffect(() => {
         const user = authService.getCurrentUser();
         if (user) {
             setIsAuthenticated(true);
         }
     }, []);
-
     return isAuthenticated;
 };
 

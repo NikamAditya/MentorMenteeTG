@@ -3,18 +3,21 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3001';
 
-const register = (username, password) => {
-    return axios.post(`${API_URL}/register`, { username, password });
+const register = (email, password) => {
+    return axios.post(`${API_URL}/register`, { email, password });
 };
 
-const login = (username, password) => {
-    return axios.post(`${API_URL}/login`, { username, password })
+const login = (email, password) => {
+    return axios.post(`${API_URL}/login`, { email, password })
         .then(response => {
-            if (response.data.token) {
-                localStorage.setItem('user', JSON.stringify(response.data));
+            const { token, user } = response.data;
+            const { uid, type } = user[0];
+            if (token) {   
+                localStorage.setItem("token", JSON.stringify(token));
+                localStorage.setItem("user", JSON.stringify({ uid, type }));
             }
-            console.log(response.data);
-            return response.data;
+            // console.log({ uid, type });
+            return { uid, type };
         });
 };
 
@@ -23,7 +26,7 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem('user'));
+    return JSON.parse(localStorage.getItem('token'));
 };
 
 export default {

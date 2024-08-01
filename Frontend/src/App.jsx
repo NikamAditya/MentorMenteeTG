@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/Login';
 import RegistrationPage from './components/Registrationpage';
 import Dashboard from './components/StudentSide/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 import MentorDashboard from './components/MentorSide/MentorDashboard';
 import HodDashboard from './components/HodSide/HodDashboard';
 
@@ -15,6 +16,10 @@ function App() {
       <Routes>
         <Route
           path="/"
+          element = {<ProtectedRoute element={<Dashboard/>} />}
+        />
+        <Route
+          path="/login"
           element = {<Login />}
         />
         <Route
@@ -23,19 +28,19 @@ function App() {
         />
          <Route
           path="/dashboard"
-          element = {<Dashboard/>}
+          element={<ProtectedRoute element={<Dashboard/>} />}
         />
 
         {/* ---------Mentor-side-routing---------- */}
 
         <Route 
           path = "/MentorDashboard"
-          element = {<MentorDashboard/>}
+          element = {<ProtectedRoute element={<MentorDashboard/>} />}
         />
 
         <Route 
           path = "/HodDashboard"
-          element = {<HodDashboard/>}
+          element = {<ProtectedRoute element={<HodDashboard/>} />}
         />   
 
 

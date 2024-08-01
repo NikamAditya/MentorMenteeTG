@@ -1,9 +1,5 @@
-
-
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import authService from "../services/authService";
 
 const LoginPage = () => {
@@ -11,13 +7,14 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  let res="";
+  let user;
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
   try {
-      res = await authService.login(email, password);
+      user = await authService.login(email, password);
+      // console.log(res)
       alert('Login successful');
   } catch (error) {
       console.error(error);
@@ -25,17 +22,13 @@ const LoginPage = () => {
   }
   
 
-      const user = res.data;
-      if (user.length !== 0) {
-        const { uid, type, token } = user[0];
- 
-        // Save user data and token to localStorage
-        localStorage.setItem("user", JSON.stringify({ uid, type }));
-        localStorage.setItem("token", token);
-
-        
+    
+      if (user) {
+        const { uid, type } = user;
+        console.log(user)
         // Redirect based on user type
-        if (uid === "1" && type === "0") {
+        if (uid == "1" && type == "0") {
+          console.log("its truee")
           navigate("/dashboard");
         } else if (uid === "1" && type === "1") {
           navigate("/registration");
