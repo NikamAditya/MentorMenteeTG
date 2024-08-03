@@ -19,7 +19,7 @@ app.post('/login', (req, res) => {
   const { email, password } = req.body;
   // console.log(email+":"+password);
   // console.log(req.body);
-  const query = 'SELECT uid, type FROM login WHERE email = ? AND password = ?';
+  const query = 'SELECT uid, type, password FROM login WHERE email = ?';
 
   connection.query(query, [email, password], async (err, user) => {
     if (err) {
@@ -27,14 +27,60 @@ app.post('/login', (req, res) => {
       res.status(500).send('Error fetching data from database.');
       return;
     }
-    // && await bcrypt.compare(password, user.password)
-    if (user) {
+    if (user && await bcrypt.compare(password, user[0].password)) {
+      // console.log(user);
       const token = jwt.sign({ username: user.email }, SECRET_KEY, { expiresIn: '1h' });
       res.json({ token ,  user });
     } else {
       res.status(401).send('Invalid credentials');
     }
     // console.log( user );
+  });
+});
+
+
+app.post('/register', async (req, res) => {
+  const { email, password } = req.body;
+
+  // Check if the user already exists
+  const checkUserQuery = 'SELECT uid FROM login WHERE email = ?';
+
+  connection.query(checkUserQuery, [email], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      res.status(500).send('Error fetching data from database.');
+      return;
+    }
+
+    if (results.length > 0) {
+      // User already exists
+      res.status(409).json({ message: 'User already exists' });
+    } else {
+      // User does not exist, proceed with registration
+      const insertUserQuery = 'INSERT INTO login (email, password, uid, type) VALUES (?, ?, "1", "1")';
+
+      // Hash the password before saving it to the database
+      bcrypt.hash(password, 10, (err, hashedPassword) => {
+        if (err) {
+          console.error('Error hashing password:', err);
+          res.status(500).send('Error processing request.');
+          return;
+        }
+
+        connection.query(insertUserQuery, [email, hashedPassword], (err, results) => {
+          if (err) {
+            console.error('Error inserting data:', err);
+            res.status(500).send('Error inserting data into database.');
+            return;
+          }
+
+          // Generate JWT token
+          const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: '1h' });
+
+          res.status(201).json({ token, message: 'User registered successfully' });
+        });
+      });
+    }
   });
 });
 

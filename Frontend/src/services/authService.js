@@ -26,8 +26,14 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem('token'));
+    try {
+        return JSON.parse(localStorage.getItem('token'));
+    } catch (error) {
+        console.error('Error parsing token:', error);
+        return null;
+    }
 };
+
 
 export default {
     register,
