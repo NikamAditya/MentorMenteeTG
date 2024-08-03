@@ -16,10 +16,27 @@ const login = (email, password) => {
                 localStorage.setItem("token", JSON.stringify(token));
                 localStorage.setItem("user", JSON.stringify({ uid, type }));
             }
-            // console.log({ uid, type });
             return { uid, type };
         });
+
 };
+
+
+// const login = async (email, password) => {
+//     const val = await axios.post(`${API_URL}/login`, { email, password })
+
+    
+//         const { token, user } = val.data;
+//         const { uid, type } = user[0];
+//         if (token) {   
+//             localStorage.setItem("token", JSON.stringify(token));
+//             localStorage.setItem("user", JSON.stringify({ uid, type }));
+//         }
+//         // console.log({ uid, type });
+//         return { uid, type };
+
+// };
+
 
 const logout = () => {
     localStorage.removeItem('user');

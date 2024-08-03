@@ -21,7 +21,7 @@ app.post('/login', (req, res) => {
   // console.log(req.body);
   const query = 'SELECT uid, type, password FROM login WHERE email = ?';
 
-  connection.query(query, [email, password], async (err, user) => {
+  connection.query(query, [email], async (err, user) => {
     if (err) {
       console.error('Error fetching data:', err);
       res.status(500).send('Error fetching data from database.');

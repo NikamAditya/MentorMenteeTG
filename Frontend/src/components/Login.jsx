@@ -14,7 +14,7 @@ const LoginPage = () => {
 
     try {
       user = await authService.login(email, password);
-      // console.log(res)
+      console.log(user)
       alert("Login successful");
     } catch (error) {
       console.error(error);
@@ -23,7 +23,7 @@ const LoginPage = () => {
 
     if (user) {
       const { uid, type } = user;
-      console.log(user+"hehe");
+      console.log(user);
       // Redirect based on user type
       if (uid == "1" && type == "0") {
         navigate("/dashboard");
