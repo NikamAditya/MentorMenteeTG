@@ -11,6 +11,11 @@ import Dashboard from "./components/StudentSide/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MentorDashboard from "./components/MentorSide/MentorDashboard";
 import HodDashboard from "./components/HodSide/HodDashboard";
+// import CGPAForm from "./components/StudentSide/Student Details/Student Details/CGPAForm";
+import Cgpa from "./components/StudentSide/Student Details/Student Details/CGPA";
+import StudentAchievement from "./components/StudentSide/Student Details/Student Details/StudentAchievement";
+import Internship from "./components/StudentSide/Student Details/Student Details/Internships";
+import PersonalD from "./components/StudentSide/Student Details/Student Details/PersonalD";
 
 function App() {
   return (
@@ -30,7 +35,10 @@ function App() {
           path="/hod-dashboard"
           element={<ProtectedRoute element={<HodDashboard />} />}
         />
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/PersonalD" element={<PersonalD />} />
+        <Route path="/Internships" element={<Internship />} />
+        <Route path="/StudentAchievement" element={<StudentAchievement />} />
+        <Route path="/CGPA" element={<Cgpa />} />
       </Routes>
     </Router>
   );
