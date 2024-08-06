@@ -9,7 +9,7 @@ const UserData = () => {
   const [cgpa, setCgpa] = useState({});
   const [internship, setInternship] = useState({});
   const [achievements, setAchievements] = useState({});
-  const [currentStep, setCurrentStep] = useState(1);
+  let [currentStep, setCurrentStep] = useState(1);
 
   const handlePersonalInfo = (data) => {
     console.log(data)
@@ -31,10 +31,14 @@ const UserData = () => {
     setInternship(data);
     setCurrentStep(5); // or handle completion logic here
   };
+  
+  const handleBack = () => {
+    setCurrentStep(currentStep--);
+  };
 
   return (
     <div>
-      {currentStep === 1 && <PersonalD onSave={handlePersonalInfo}/>}
+      {currentStep === 1 && <PersonalD onSave={handlePersonalInfo} back={handleBack}/>}
       {currentStep === 2 && <Cgpa onSave={handleMarks} />}
       {currentStep === 3 && <Internships onSave={handleAchievements} />}
       {currentStep === 4 && <StudentAchievement onSave={handleInternship} />}

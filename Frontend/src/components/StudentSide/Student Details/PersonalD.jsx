@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const PersonalD = ({onSave}) => {
+const PersonalD = ({onSave, back}) => {
   // const [name, setName] = useState('');
   // const [program, setProgram] = useState('');
   // const [branch, setBranch] = useState('');
@@ -15,7 +15,7 @@ const PersonalD = ({onSave}) => {
     name: "",
     program: "",
     branch: "",
-    email: email,
+    email: "",
     phone: "",
     dob: "",
   });
@@ -29,6 +29,11 @@ const PersonalD = ({onSave}) => {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     if (loggedInUser && loggedInUser.email) {
       setEmail(loggedInUser.email);
+      userInfo.email = loggedInUser.email
+    }
+    const personalInfo = JSON.parse(localStorage.getItem("personalInfo"));
+    if(personalInfo){
+      setUserInfo(personalInfo)
     }
   }, []);
 
@@ -57,13 +62,13 @@ const PersonalD = ({onSave}) => {
     e.preventDefault();
     if (validateForm()) {
       // console.log(userInfo)
+      localStorage.setItem("personalInfo", JSON.stringify(userInfo));
       onSave(userInfo);
-      // navigate('/cgpa');
     }
   };
 
   const handleBack = () => {
-    navigate("/dashboard");
+   back();
   };
 
   return (
