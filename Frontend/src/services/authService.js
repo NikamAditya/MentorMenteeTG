@@ -15,6 +15,7 @@ const login = (email, password) => {
             if (token) {   
                 localStorage.setItem("token", JSON.stringify(token));
                 localStorage.setItem("user", JSON.stringify({ uid, type }));
+                localStorage.setItem("loggedInUser", JSON.stringify({email: email}));
             }
             return { uid, type };
         });
@@ -70,5 +71,6 @@ export default {
     register,
     login,
     logout,
-    getCurrentUser
+    getCurrentUser,
+    getUser
 };

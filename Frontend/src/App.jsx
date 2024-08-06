@@ -17,6 +17,7 @@ import StudentAchievement from "./components/StudentSide/Student Details/Student
 import Internship from "./components/StudentSide/Student Details/Internships";
 import PersonalD from "./components/StudentSide/Student Details/PersonalD";
 import authService from "./services/authService";
+import UserData from "./components/StudentSide/userData";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={authService.getCurrentUser()?<Dashboard />:<Login />} />
         <Route path="/registration" element={<RegistrationPage />} />
+        <Route path="/userInfo" element={<UserData />} />
         <Route
           path="/dashboard"
           element={<ProtectedRoute element={<Dashboard />} />}

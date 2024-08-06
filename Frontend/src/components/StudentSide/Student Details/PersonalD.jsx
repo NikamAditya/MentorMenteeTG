@@ -1,15 +1,32 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const PersonalD = () => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+const PersonalD = ({onSave}) => {
+  // const [name, setName] = useState('');
+  // const [program, setProgram] = useState('');
+  // const [branch, setBranch] = useState('');
+  const [email, setEmail] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  // const [phone, setPhone] = useState('');
+  // const [dob, setDob] = useState('');
+
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    program: "",
+    branch: "",
+    email: email,
+    phone: "",
+    dob: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserInfo((prevInfo) => ({ ...prevInfo, [name]: value }));
+  };
 
   useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     if (loggedInUser && loggedInUser.email) {
       setEmail(loggedInUser.email);
     }
@@ -17,19 +34,19 @@ const PersonalD = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    const nameRegex = /^[a-zA-Z\s]+$/; 
-    const phoneRegex = /^[0-9]+$/; 
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    const phoneRegex = /^[0-9]+$/;
 
-    if (!nameRegex.test(name)) {
-      newErrors.name = 'Name should contain only letters and spaces.';
+    if (!nameRegex.test(userInfo.name)) {
+      newErrors.name = "Name should contain only letters and spaces.";
     }
 
-    if (!phoneRegex.test(phone)) {
-      newErrors.phone = 'Phone number should contain only digits.';
+    if (!phoneRegex.test(userInfo.phone)) {
+      newErrors.phone = "Phone number should contain only digits.";
     }
 
-    if (!phone) {
-      newErrors.phone = 'Phone number is required.';
+    if (!userInfo.phone) {
+      newErrors.phone = "Phone number is required.";
     }
 
     setErrors(newErrors);
@@ -39,18 +56,22 @@ const PersonalD = () => {
   const handlegonext = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      navigate('/cgpa');
+      // console.log(userInfo)
+      onSave(userInfo);
+      // navigate('/cgpa');
     }
   };
 
   const handleBack = () => {
-    navigate('/dashboard'); 
+    navigate("/dashboard");
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
       <div className="bg-white border border-blue-700 rounded-md p-8 shadow-lg w-full max-w-md">
-        <h1 className="text-4xl font-bold text-center mb-8 text-purple-900">Personal Details</h1>
+        <h1 className="text-4xl font-bold text-center mb-8 text-purple-900">
+          Personal Details
+        </h1>
         <form onSubmit={handlegonext}>
           <div className="my-4">
             <label htmlFor="name" className="block text-sm text-black-500 mb-1">
@@ -59,13 +80,16 @@ const PersonalD = () => {
             <input
               type="text"
               id="name"
+              name="name"
               className="block w-full py-2 px-3 text-sm border border-blue-500 rounded-md focus:border-black"
               placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={userInfo.name}
+              onChange={handleChange}
               required
             />
-            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm">{errors.name}</p>
+            )}
           </div>
           <div className="my-4">
             <label htmlFor="year" className="block text-sm text-black-500 mb-1">
@@ -74,8 +98,14 @@ const PersonalD = () => {
             <select
               id="year"
               className="block w-full py-2 px-3 text-sm border border-blue-500 rounded-md focus:border-black"
+              name="program"
+              value={userInfo.program}
+              onChange={handleChange}
               required
             >
+              <option value="" disabled hidden>
+                Select
+              </option>
               <option value="FE">FE</option>
               <option value="SE">SE</option>
               <option value="TE">TE</option>
@@ -83,21 +113,37 @@ const PersonalD = () => {
             </select>
           </div>
           <div className="my-4">
-            <label htmlFor="branch" className="block text-sm text-black-500 mb-1">
+            <label
+              htmlFor="branch"
+              className="block text-sm text-black-500 mb-1"
+            >
               Branch
             </label>
             <select
               id="branch"
               className="block w-full py-2 px-3 text-sm border border-blue-500 rounded-md focus:border-black"
+              name="branch"
+              value={userInfo.branch}
+              onChange={handleChange}
               required
             >
+              <option value="" disabled hidden>
+                Select
+              </option>
               <option value="Computer Science">Computer Science</option>
-              <option value="Information Technology">Information Technology</option>
-              <option value="Artificial Intelligence & Data Science">Artificial Intelligence & Data Science</option>
+              <option value="Information Technology">
+                Information Technology
+              </option>
+              <option value="Artificial Intelligence & Data Science">
+                Artificial Intelligence & Data Science
+              </option>
             </select>
           </div>
           <div className="my-4">
-            <label htmlFor="email" className="block text-sm text-black-500 mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm text-black-500 mb-1"
+            >
               Email
             </label>
             <input
@@ -109,7 +155,10 @@ const PersonalD = () => {
             />
           </div>
           <div className="my-4">
-            <label htmlFor="phone" className="block text-sm text-black-500 mb-1">
+            <label
+              htmlFor="phone"
+              className="block text-sm text-black-500 mb-1"
+            >
               Phone Number
             </label>
             <input
@@ -117,11 +166,14 @@ const PersonalD = () => {
               id="phone"
               className="block w-full py-2 px-3 text-sm border border-blue-500 rounded-md focus:border-black"
               placeholder="Enter your phone number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              name="phone"
+              value={userInfo.phone}
+              onChange={handleChange}
               required
             />
-            {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
+            {errors.phone && (
+              <p className="text-red-500 text-sm">{errors.phone}</p>
+            )}
           </div>
           <div className="my-4">
             <label htmlFor="dob" className="block text-sm text-black-500 mb-1">
@@ -131,6 +183,9 @@ const PersonalD = () => {
               type="date"
               id="dob"
               className="block w-full py-2 px-3 text-sm border border-blue-500 rounded-md focus:border-black"
+              name="dob"
+              value={userInfo.dob}
+              onChange={handleChange}
               required
             />
           </div>
