@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useState, useEffect } from 'react';
 import {useNavigate } from 'react-router-dom';
 
 const StudentAchievement = () => {
@@ -22,6 +22,13 @@ const StudentAchievement = () => {
     }
   };
 
+  useEffect(() => {
+    const achievements = localStorage.getItem("achievements");
+    if(achievements){
+      setAchievements(JSON.parse(achievements))
+    }
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setAchievements([...achievements, formData]);
@@ -38,7 +45,9 @@ const StudentAchievement = () => {
     navigate('/Internships'); 
   };
   const handleNext =()=>{
-    navigate('/');
+    localStorage.setItem("achievements", JSON.stringify(achievements));
+    // console.log(achievements)
+    // navigate('/');
   }
   return (
     <div className="p-4 md:p-6 lg:p-8">

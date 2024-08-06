@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const PersonalD = ({onSave, back}) => {
+const PersonalD = () => {
   // const [name, setName] = useState('');
   // const [program, setProgram] = useState('');
   // const [branch, setBranch] = useState('');
@@ -63,12 +63,12 @@ const PersonalD = ({onSave, back}) => {
     if (validateForm()) {
       // console.log(userInfo)
       localStorage.setItem("personalInfo", JSON.stringify(userInfo));
-      onSave(userInfo);
+      navigate("/CGPA")
     }
   };
 
   const handleBack = () => {
-   back();
+
   };
 
   return (

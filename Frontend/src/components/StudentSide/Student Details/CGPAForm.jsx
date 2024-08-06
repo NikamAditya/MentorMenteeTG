@@ -69,14 +69,14 @@ const CGPAForm = ({ addSemesterDetails }) => {
           />
         </div>
         <div className="col-span-1">
-          <label htmlFor="grade" className="block text-sm font-medium text-gray-700">SGPA Obtained</label>
+          <label htmlFor="grade" className="block text-sm font-medium text-gray-700">CGPA Obtained</label>
           <input
             type="number"
             step="0.01"
             id="grade"
             value={formData.grade}
             onChange={handleChange}
-            placeholder="SGPA Obtained"
+            placeholder="CGPA Obtained"
             className="mt-1 px-3 py-2 border border-gray-300 rounded w-full"
             required
           />
@@ -121,9 +121,9 @@ const CGPAForm = ({ addSemesterDetails }) => {
           <label htmlFor="aggregate" className="block text-sm font-medium text-gray-700">Aggregate</label>
           <input
             type="number"
-            step="0.01"
+            // step="10"
             id="aggregate"
-            value={formData.aggregate}
+            value={formData.aggregate*10}
             onChange={handleChange}
             placeholder="Aggregate"
             className="mt-1 px-3 py-2 border border-gray-300 rounded w-full"
