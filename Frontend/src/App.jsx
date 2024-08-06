@@ -12,16 +12,18 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import MentorDashboard from "./components/MentorSide/MentorDashboard";
 import HodDashboard from "./components/HodSide/HodDashboard";
 // import CGPAForm from "./components/StudentSide/Student Details/Student Details/CGPAForm";
-import Cgpa from "./components/StudentSide/Student Details/Student Details/CGPA";
-import StudentAchievement from "./components/StudentSide/Student Details/Student Details/StudentAchievement";
-import Internship from "./components/StudentSide/Student Details/Student Details/Internships";
-import PersonalD from "./components/StudentSide/Student Details/Student Details/PersonalD";
+import Cgpa from "./components/StudentSide/Student Details/CGPA";
+import StudentAchievement from "./components/StudentSide/Student Details/StudentAchievement";
+import Internship from "./components/StudentSide/Student Details/Internships";
+import PersonalD from "./components/StudentSide/Student Details/PersonalD";
+import authService from "./services/authService";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/" element={authService.getCurrentUser()?<Dashboard />:<Login />} />
         <Route path="/registration" element={<RegistrationPage />} />
         <Route
           path="/dashboard"

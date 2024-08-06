@@ -45,13 +45,26 @@ const logout = () => {
 
 const getCurrentUser = () => {
     try {
-        return JSON.parse(localStorage.getItem('token'));
+        const token = JSON.parse(localStorage.getItem('token'));
+        return token != null;
     } catch (error) {
         console.error('Error parsing token:', error);
-        return null;
+        return false;
     }
 };
 
+const getUser = () => {
+    try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if(user.uid == "1" && user.type == "1"){
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error('Error parsing token:', error);
+        return false;
+    }
+};
 
 export default {
     register,

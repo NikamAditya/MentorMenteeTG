@@ -13,7 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Secret key for JWT
-const SECRET_KEY = 'aditya';
+const SECRET_KEY = 'adinik';
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
